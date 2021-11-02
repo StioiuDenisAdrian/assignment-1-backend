@@ -1,28 +1,27 @@
 ﻿using assignment_1_backend.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace assignment_1_backend.Repositories
 {
-    public class Context: IdentityDbContext<User>
+    public class Context : IdentityDbContext<User>
     {
         public Context(DbContextOptions<Context> options)
             : base(options)
         {
 
         }
-     
 
+        public DbSet<Device> Devices { get; set; }
+        public DbSet<Measurment> Measurments{get;set;}
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<Role>().HasData(new Role { ID = 1, Name = "Administrator" });
-            //modelBuilder.Entity<Role>().HasData(new Role { ID = 2, Name = "Customer" });
+            modelBuilder.ApplyConfiguration(new RoleConfiguration());
+            modelBuilder.Entity<Measurment>();
+            modelBuilder.Entity<Device>();
         }
     }
 }

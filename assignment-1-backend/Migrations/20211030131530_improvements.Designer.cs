@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using assignment_1_backend.Repositories;
@@ -9,9 +10,10 @@ using assignment_1_backend.Repositories;
 namespace assignment_1_backend.Migrations
 {
     [DbContext(typeof(Context))]
-    partial class ContextModelSnapshot : ModelSnapshot
+    [Migration("20211030131530_improvements")]
+    partial class improvements
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,15 +49,15 @@ namespace assignment_1_backend.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "cf07e3c9-ea74-428a-b12f-81b067826efc",
-                            ConcurrencyStamp = "13f58ae9-d9ac-4177-b9f3-627c38ac2550",
+                            Id = "29805658-3222-4cfe-9d50-342b04d4d50a",
+                            ConcurrencyStamp = "d85dde62-a2da-4023-9505-8d85ea086047",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
-                            Id = "bd8cc354-1501-4e6d-a38f-65f1a7861b32",
-                            ConcurrencyStamp = "9a07c2cd-a527-49cf-a078-1a9903f4589b",
+                            Id = "71e55b33-c3bf-40c1-bb63-ff96c5df8d63",
+                            ConcurrencyStamp = "a1acf98e-3835-4c76-9533-18d105dafa41",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         });
@@ -173,9 +175,6 @@ namespace assignment_1_backend.Migrations
 
                     b.Property<string>("DeviceName")
                         .HasColumnType("text");
-
-                    b.Property<double>("MAximumValue")
-                        .HasColumnType("double precision");
 
                     b.Property<string>("SensorDescription")
                         .HasColumnType("text");

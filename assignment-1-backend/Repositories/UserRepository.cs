@@ -1,15 +1,12 @@
 ﻿using assignment_1_backend.Models;
-using assignment_1_backend.Models.Filters;
 using assignment_1_backend.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace assignment_1_backend.Repositories
 {
-    public class UserRepository// : IUserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly Context context;
 
@@ -18,43 +15,43 @@ namespace assignment_1_backend.Repositories
             this.context = context;
         }
 
-        //public void ChangeDefaultPassword(Guid id, string password)
-        //{
-        //    var user = context.Users.AsTracking().FirstOrDefault(u => u.ID == id);
+        public void DeleteUser(string ID)
+        {
+            var user = context.Users.FirstOrDefault(u => u.Id == ID);
+            context.Users.Remove(user);
+            context.SaveChanges();
+        }
 
-        //    user.Password = password;
-        //    user.IsOriginalPasswordChanged = true;
+        public User GetUser(string ID)
+        {
+            return context.Users.FirstOrDefault(u => u.Id == ID);
+        }
 
-        //    context.SaveChanges();
-        //}
+        public User GetUserByName(string name)
+        {
+            return context.Users.FirstOrDefault(u => u.UserName == name);
+        }
 
-        //public void DeleteUser(Guid ID)
-        //{
-        //    var user = context.Users.FirstOrDefault(u => u.ID == ID);
-        //    context.Users.Remove(user);
-        //    context.SaveChanges();
-        //}
+        public string GetUserRole(string Id)
+        {
+            return context.Roles.FirstOrDefault(r => r.Id == context.UserRoles.FirstOrDefault(ur => ur.UserId == Id).RoleId).Name;
+        }
 
-        //public User GetUser(Guid ID)
-        //{
-        //    return context.Users.FirstOrDefault(u => u.ID == ID);
-        //}
+        public IEnumerable<User> GetUsers()
+        {
+            var users = context.Users;
+            return users;
+        }
 
-        //public IEnumerable<User> GetUsers(UserFilter userFilter)
-        //{
-        //    var users = context.Users.Include(r => r.Role).Where(u => (string.IsNullOrEmpty(userFilter.Name) || u.Name == userFilter.Name)
-        //                                                               && (userFilter.RoleID == null || u.RoleID == userFilter.RoleID.Value));
-        //    return users;
-        //}
 
-        //public bool IsUserNameUnique(string username)
-        //{
-        //    return  !context.Users.Any(u => u.Name == username );
-        //}
-
-        //public void SaveUser(User user, bool isAccountCreated)
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public void SaveUser(User user)
+        {
+            var dbUser = context.Users.AsTracking().FirstOrDefault(u => u.Id == user.Id);
+            dbUser.Name = user.Name;
+            dbUser.Email = user.Email;
+            dbUser.Address = user.Address;
+            dbUser.Birthday = user.Birthday;
+            context.SaveChanges();
+        }
     }
 }

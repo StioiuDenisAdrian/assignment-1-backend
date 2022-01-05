@@ -1,3 +1,4 @@
+using assignment_1_backend.Config;
 using assignment_1_backend.Models;
 using assignment_1_backend.Repositories;
 using assignment_1_backend.Repositories.Interfaces;
@@ -19,6 +20,8 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -40,7 +43,6 @@ namespace assignment_1_backend
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             services.AddControllers();
 
             services.AddDbContext<Context>(options =>
@@ -62,6 +64,13 @@ namespace assignment_1_backend
                     });
             });
 
+
+            services.AddSignalR(options =>
+            {
+                options.EnableDetailedErrors = true;
+            });
+
+            services.AddControllers();
 
             var jwtSettings = Configuration.GetSection("JwtSettings");
 
@@ -102,6 +111,8 @@ namespace assignment_1_backend
             services.AddScoped<IDeviceService, DeviceService>();
             services.AddScoped<IMeasurmentRepository, MeasurmentRepository>();
             services.AddScoped<IMeasurmentService, MeasurmentService>();
+            services.AddHostedService<ConsumerService>();
+
 
             services.AddSwaggerGen(c =>
             {
@@ -140,6 +151,7 @@ namespace assignment_1_backend
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<MeasurementHub>("/toastr");
             });
         }
     }

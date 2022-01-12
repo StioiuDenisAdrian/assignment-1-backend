@@ -16,7 +16,7 @@ namespace assignment_1_backend.Models.DTOs
             return new MeasurementDTO
             {
                 KWH = measurment.KWH,
-                TimeStamp = measurment.TimeStamp
+                TimeStamp = measurment.TimeStamp.ToLocalTime()
             };
         }
     }
